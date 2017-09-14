@@ -15,7 +15,10 @@ $(document).ready(function(){
     let lon = locationAPI.longitude;
     let city = locationAPI.city;
     let state = locationAPI.region;
-    console.log(`The longtitude is: ${lat}`);
+    console.log(`The latitude is: ${lat}`);
+    console.log(`The longitude is: ${lon}`);
+    console.log(`The city is: ${city}`);
+    console.log(`The state is: ${state}`);
 
     getWeatherData(lat, lon, city, state);
   });
