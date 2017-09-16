@@ -3,26 +3,28 @@ $(document).ready(function(){
   //use jQuery to target your search box (input form)
   $('#searchUser').on('keyup', function(e){
     //set username equal to the value of what the user entered.
-    ________________>>>>let username = searchData(e);
+    console.log(e);
+    let username = e.target.value;
     console.log(username);
     // Make 2 AJAX requests to Github...
     // 1st AJAX call is to get user information (i.e. name, description, etc.)
     $.ajax({
       url: `https://api.github.com/users/${username}`,
       data: {
-        client_id: '_____________________________',
-        client_secret: '_____________________________'
+        client_id: '',
+        client_secret: '',
       }
     })
     // when AJAX call is .done() running, run the callback function inside
     // 2nd AJAX call is to get user's REPO info (i.e. number of repos, project information, etc.)
     .done(function(user){
+      console.log(user);
       // what variable needs to in CHANGE
       $.ajax({
         url: `https://api.github.com/users/${username}/repos`,
         data: {
-          client_id: '_________________________________--',
-          client_secret: '___________________________________',
+          client_id: '',
+          client_secret: '',
           // make returned data display in ascending order
           sort: 'created: asc',
           per_page: 5
@@ -30,6 +32,7 @@ $(document).ready(function(){
       })
       // this is why we need two AJAX calls, to return the second repo...
       .done(function(repos){
+        console.log(repos);
         // use $.each to iterate over all of the repos
         $.each(repos, function(index, repo){
           // now we can inject our repo and user data for every instance of repos...
@@ -37,15 +40,15 @@ $(document).ready(function(){
             <div class="well">
               <div class="row">
                 <div class="col-md-7">
-                  <strong>${'.name'}</strong>: ${'.description'}
+                  <strong>${repo.name}</strong>: ${repo.description}
                 </div>
                 <div class="col-md-3">
-                  <span class="label label-default"> Forks: ${'secret.forks_count'}</span>
-                  <span class="label label-primary">Watchers: ${'.watchers_count'}</span>
-                  <span class="label label-success">Stars: ${'.stargazers_count'}</span>
+                  <span class="label label-default"> Forks: ${repo.forks_count}</span>
+                  <span class="label label-primary">Watchers: ${repo.watchers_count}</span>
+                  <span class="label label-success">Stars: ${repo.stargazers_count}</span>
                 </div>
                 <div class="col-md-2">
-                  <a href="${'.html_url'}" target="_blank" class="btn btn-default">Repo Page</a>
+                  <a href="${repo.html_url}" target="_blank" class="btn btn-default">Repo Page</a>
                 </div>
               </div>
             </div>
@@ -56,25 +59,25 @@ $(document).ready(function(){
       $('#profile').html(`
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">${name}</h3>
+            <h3 class="panel-title">${user.login}</h3>
           </div>
           <div class="panel-body">
             <div class="row">
               <div class="col-md-3">
-                <img class="thumbnail avatar" src="${avatar_url}">
-                <a target="_blank" class="btn btn-primary btn-block" href="${html_url}">View Profile</a>
+                <img class="thumbnail avatar" src=${user.avatar_url}>
+                <a target="_blank" class="btn btn-primary btn-block" href=${user.html_url}>View Profile</a>
               </div>
               <div class="col-md-9">
-              <span class="label label-default">Public Repos: ${'secret2.public_repos'}</span>
-              <span class="label label-primary">Public Gists: ${public_gists}</span>
-              <span class="label label-success">Followers: ${followers}</span>
-              <span class="label label-info">Following: ${following}</span>
+              <span class="label label-default">Public Repos: ${user.public_repos}</span>
+              <span class="label label-primary">Public Gists: ${user.public_gists}</span>
+              <span class="label label-success">Followers: ${user.followers}</span>
+              <span class="label label-info">Following: ${user.following}</span>
               <br><br>
               <ul class="list-group">
-                <li class="list-group-item">Company: ${company}</li>
-                <li class="list-group-item">Website/blog: ${blog}</li>
-                <li class="list-group-item">Location: ${location}</li>
-                <li class="list-group-item">Member Since: ${created_at}</li>
+                <li class="list-group-item">Company: ${user.company}</li>
+                <li class="list-group-item">Website/blog: ${user.blog}</li>
+                <li class="list-group-item">Location: ${user.location}</li>
+                <li class="list-group-item">Member Since: ${user.created_at}</li>
               </ul>
               </div>
             </div>

@@ -31,7 +31,12 @@ $(document).ready(function(){
 
     weatherData.then(function(response, status){
       let myTemp = response.main.temp;
+      let newCity  = response.name;
+      let newState = response.sys.country;
       temp.textContent = Math.round(myTemp);
+      myCity.innerHTML = newCity;
+      myState.innerHTML = newState;
+
       // Insert your data into the html! hint: log the api response and see what data is available.
       console.log(response);
     });
